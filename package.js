@@ -17,10 +17,3 @@ Package.onUse(function(api) {
   api.mainModule('postgres-client.js', 'client');
   api.mainModule('postgres-server.js', 'server');
 });
-
-Package.onTest(function(api) {
-  api.use('ecmascript');
-  api.use('tinytest');
-  api.use('slaivyn:postgres');
-  api.mainModule('postgres-tests.js');
-});
