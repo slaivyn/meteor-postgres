@@ -1,8 +1,11 @@
-import { Meteor } from 'meteor/meteor';
+import { EventEmitter }         from 'events';
+import { Meteor }               from 'meteor/meteor';
 import { pg as nodePg, LivePg } from 'meteor/numtel:pg';
 const CHANNEL = 'meteor_channel';
 
-export const pg = {};
+class MyEmitter extends EventEmitter {}
+
+export const pg = new MyEmitter();
 
 const pgConnectionAttempt = function(pgConfig, maxRetry) {
   return new Promise((fulfill, reject) => {
@@ -40,6 +43,7 @@ pgConnectionAttempt(mainDb, 2)
   pg.liveDb.on('error', (error) => {
     console.log("pg connection error", error)
   });
+  pg.emit('connected');
   const closeAndExit = function() {
     pg.liveDb.cleanup(process.exit);
   }
